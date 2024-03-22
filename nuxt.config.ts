@@ -6,6 +6,7 @@ export default defineNuxtConfig({
       __VUE_PROD_DEVTOOLS__: true,
     },
   },
+  nitro: { preset: "netlify-edge" },
   css: ["~/assets/styles.css"],
   modules: ["@nuxtjs/tailwindcss", "@hypernym/nuxt-gsap", "@tresjs/nuxt"],
   gsap: {
