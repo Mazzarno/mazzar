@@ -35,7 +35,6 @@ onLoop(({ delta }) => {
 
 const progress = ref(0)
 const cameraRef = ref()
-const boxRef = ref()
 const group1Ref = ref()
 const group2Ref = ref()
 const group3Ref = ref()
@@ -54,634 +53,83 @@ const group6Ref = ref()
           ref="cameraRef"
         />
         <!-- SCROLL -->
+        <ScrollControls :pages="1" :distance="30" :smooth-scroll="0.05" />
+        <!-- PARALLAX -->
         <MouseParallax :factor="3" :ease="3" />
-        <levioso
-          :speed="2"
-          :rotation-factor="2"
-          :float-factor="2"
-          :range="[-0.05, 0.05]"
-        >
-          <Suspense>
-            <Text3D
-              text="M"
-              font="/public/assets/poppins.json"
-              center
-              need-updates
-              :position="[-3.5, 3, 0]"
-              :size="2"
-            >
-              <MeshGlassMaterial color="black" />
-            </Text3D>
-          </Suspense>
-        </levioso>
-        <levioso>
-          <Suspense>
-            <Text3D
-              text="A"
-              font="/public/assets/poppins.json"
-              center
-              need-updates
-              :position="[-2, 3, 0]"
-              :size="2"
-            >
-              <MeshGlassMaterial color="black" />
-            </Text3D>
-          </Suspense>
-        </levioso>
-        <levioso>
-          <Suspense>
-            <Text3D
-              text="Z"
-              font="/public/assets/poppins.json"
-              center
-              need-updates
-              :position="[-0.5, 3, 0]"
-              :size="2"
-            >
-              <MeshGlassMaterial color="black" />
-            </Text3D>
-          </Suspense>
-        </levioso>
-        <levioso>
-          <Suspense>
-            <Text3D
-              text="Z"
-              font="/public/assets/poppins.json"
-              center
-              need-updates
-              :position="[1, 3, 0]"
-              :size="2"
-            >
-              <MeshGlassMaterial color="black" />
-            </Text3D>
-          </Suspense>
-        </levioso>
-        <levioso>
-          <Suspense>
-            <Text3D
-              text="A"
-              font="/public/assets/poppins.json"
-              center
-              need-updates
-              :position="[2.5, 3, 0]"
-              :size="2"
-            >
-              <MeshGlassMaterial color="black" />
-            </Text3D>
-          </Suspense>
-        </levioso>
-        <levioso>
-          <Suspense>
-            <Text3D
-              text="R"
-              font="/public/assets/poppins.json"
-              center
-              need-updates
-              :position="[4, 3, 0]"
-              :size="2"
-            >
-              <MeshGlassMaterial color="black" />
-            </Text3D>
-          </Suspense>
-        </levioso>
+        <!-- TEXT -->
+        <mazzar />
 
-        <Stars />
+        <!-- BOX GROUP 1 -->
         <Levioso>
-          <box1 />
-        </Levioso>
-        <Levioso>
-          <TresGroup ref="group1Ref" :position="[0, 10, 0]">
-            <!-- BOX & LINE 1 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[0, 3, 0]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 2 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[1, 4, 5]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 3 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[6, 1, 2]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-            <!-- BOX & LINE 4 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-4, 3, -10]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 5 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-20, 6, -20]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 6 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[-1, 3, 7]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
+          <TresGroup ref="group1Ref" :position="[0, 20, 0]">
+            <box1 :position="[0, 2, 0]" />
+            <box2 :position="[5, 1, 5]" />
+            <box3 :position="[-5, 3, -5]" />
+            <box1 :position="[2, 5, 10]" />
+            <box2 :position="[-5, 6, 2]" />
+            <box3 :position="[-10, 7, -10]" />
           </TresGroup>
         </Levioso>
+        <!-- BOX GROUP 2 -->
         <Levioso>
           <TresGroup ref="group2Ref" :position="[2, 20, 2]">
-            <!-- BOX & LINE 1 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[0, 3, 0]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 2 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[1, 4, 5]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 3 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[6, 1, 2]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-            <!-- BOX & LINE 4 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-4, 3, -10]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 5 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-20, 6, -20]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 6 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[-1, 3, 7]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
+            <box1 :position="[0, 3, 0]" />
+            <box2 :position="[1, 4, 5]" />
+            <box3 :position="[6, 1, 2]" />
+            <box1 :position="[-4, 3, -10]" />
+            <box2 :position="[-5, 6, 2]" />
+            <box3 :position="[-1, 3, 7]" />
           </TresGroup>
         </Levioso>
+        <!-- BOX GROUP 3 -->
         <Levioso>
-          <TresGroup ref="group3Ref" :position="[-1, 30, -1]">
-            <!-- BOX & LINE 1 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[0, 3, 0]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 2 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[1, 4, 5]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 3 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[6, 1, 2]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-            <!-- BOX & LINE 4 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-4, 3, -10]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 5 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-20, 6, -20]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 6 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[-1, 3, 7]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
+          <TresGroup ref="group3Ref" :position="[2, 20, 2]">
+            <box1 :position="[0, 3, 0]" />
+            <box2 :position="[1, 4, 5]" />
+            <box3 :position="[6, 1, 2]" />
+            <box1 :position="[-4, 3, -10]" />
+            <box2 :position="[-5, 6, 2]" />
+            <box3 :position="[-1, 3, 7]" />
           </TresGroup>
         </Levioso>
+        <!-- BOX GROUP 4 -->
         <Levioso>
           <TresGroup ref="group4Ref" :position="[-2, 40, 3]">
-            <!-- BOX & LINE 1 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[0, 3, 0]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 2 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[1, 4, 5]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 3 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[6, 1, 2]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-            <!-- BOX & LINE 4 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-4, 3, -10]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 5 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-20, 6, -20]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 6 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[-1, 3, 7]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
+            <box1 :position="[0, 3, 0]" />
+            <box2 :position="[1, 4, 5]" />
+            <box3 :position="[6, 1, 2]" />
+            <box1 :position="[-4, 3, -10]" />
+            <box2 :position="[-5, 6, 2]" />
+            <box3 :position="[-1, 3, 7]" />
           </TresGroup>
         </Levioso>
+        <!-- BOX GROUP 5 -->
         <Levioso>
           <TresGroup ref="group5Ref" :position="[3, 50, -5]">
-            <!-- BOX & LINE 1 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[0, 3, 0]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 2 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[1, 4, 5]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 3 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[6, 1, 2]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-            <!-- BOX & LINE 4 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-4, 3, -10]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 5 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-20, 6, -20]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 6 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[-1, 3, 7]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
+            <box1 :position="[0, 3, 0]" />
+            <box2 :position="[1, 4, 5]" />
+            <box3 :position="[6, 1, 2]" />
+            <box1 :position="[-4, 3, -10]" />
+            <box2 :position="[-5, 6, 2]" />
+            <box3 :position="[-1, 3, 7]" />
           </TresGroup>
         </Levioso>
+        <!-- BOX GROUP 6 -->
         <Levioso>
           <TresGroup ref="group6Ref" :position="[-3, 60, -3]">
-            <!-- BOX & LINE 1 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[0, 3, 0]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 2 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[1, 4, 5]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 3 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[6, 1, 2]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-            <!-- BOX & LINE 4 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-4, 3, -10]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 5 -->
-            <Box
-              :args="[0.5, 0.5, 0.5]"
-              :position="[-20, 6, -20]"
-              color="#e6dada"
-            >
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
-
-            <!-- BOX & LINE 6 -->
-            <Box :args="[0.5, 0.5, 0.5]" :position="[-1, 3, 7]" color="#e6dada">
-              <line2
-                color="#e6dada"
-                :line-width="1"
-                :position="[0, 1, 0]"
-                :points="[
-                  [0, -1, 0],
-                  [0, 1, 0],
-                ]"
-              />
-            </Box>
+            <box1 :position="[0, 3, 0]" />
+            <box2 :position="[1, 4, 5]" />
+            <box3 :position="[6, 1, 2]" />
+            <box1 :position="[-4, 3, -10]" />
+            <box2 :position="[-5, 6, 2]" />
+            <box3 :position="[-1, 3, 7]" />
           </TresGroup>
         </Levioso>
-
         <TresGridHelper :position="[0, 0, 0]" :args="[10, 10]" />
         <TresGridHelper :position="[0, -10, 0]" :args="[10, 10]" />
         <TresGridHelper :position="[0, -20, 0]" :args="[10, 10]" />
         <TresGridHelper :position="[0, -30, 0]" :args="[10, 10]" />
+        <Stars />
       </TresCanvas>
     </section>
   </div>
