@@ -16,6 +16,7 @@ onLoop(({ delta }) => {
 
 const boxRef = ref()
 const lineRef = ref()
+/* 
 onMounted(() => {
   $anime({
     targets: boxRef.value.value.position,
@@ -27,7 +28,7 @@ onMounted(() => {
     direction: 'alternate',
     loop: true,
   })
-})
+}) */
 </script>
 <template>
   <Box ref="boxRef" :args="[0.5, 0.5, 0.5]" color="#FBFBFB">

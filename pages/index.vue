@@ -1,8 +1,18 @@
 <template>
-  <div></div>
+  <div class="container"></div>
 </template>
 
+<script setup>
+function handleScroll() {
+  console.log(window.pageYOffset)
+}
+if (process.client) {
+  window.addEventListener('scroll', handleScroll)
+}
+</script>
 
-<script lang="ts" setup></script>
-
-<style></style>
+<style>
+.container {
+  height: 200vh;
+}
+</style>
