@@ -35,16 +35,11 @@
       <Levioso :speed="3" :floatFactor="5" :rotationFactor="0.1">
         <MouseParallax :factor="2" :ease="3" />
       </Levioso>
-      <boxi :position="[-5, 1, 0]" :rotation="[0, 0.5, 0]" />
-      <boxi :position="[5, 5, 0]" :rotation="[0, 0.3, 0]" />
-      <Precipitation
-        :randomness="1"
-        :speed="0.01"
-        :count="150"
-        :area="[75, 50, 100]"
-      />
-      <stars />
-
+      <boxrand :position="[-5, 1, 0]" :rotation="[0, 0.5, 0]" />
+      <boxrand :position="[5, 5, 0]" :rotation="[0, 0.3, 0]" />
+      <boxrand :position="[-15, -1, -10]" :rotation="[0, 0.5, 0]" />
+      <boxrand :position="[15, -5, -8]" :rotation="[0, 0.3, 0]" ref="boxRef" />
+      <boxrand :position="[10, 12, -15]" :rotation="[0, 0.1, 0]" ref="boxRef" />
       <Levioso>
         <TresGroup ref="groupRef">
           <Suspense>
@@ -56,10 +51,13 @@
           </Suspense>
         </TresGroup>
       </Levioso>
-
-      <boxi :position="[-15, -1, -10]" :rotation="[0, 0.5, 0]" />
-      <boxi :position="[15, -5, -8]" :rotation="[0, 0.3, 0]" ref="boxRef" />
-      <boxi :position="[10, 12, -15]" :rotation="[0, 0.1, 0]" ref="boxRef" />
+      <Precipitation
+        :randomness="1"
+        :speed="0.01"
+        :count="150"
+        :area="[75, 50, 100]"
+      />
+      <stars />
       <TresGridHelper :position="[0, 0, 0]" :args="[10, 10]" />
       <TresGridHelper :position="[0, -20, 0]" :args="[10, 10]" />
       <TresGridHelper :position="[0, -40, 0]" :args="[10, 10]" />
