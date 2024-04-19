@@ -1,314 +1,84 @@
 <script setup lang="ts">
-import { PolyhedronGeometry } from "three";
-
-const { onLoop } = useRenderLoop();
-const { $anime } = useNuxtApp();
-
-function boxClick() {
+const { onLoop } = useRenderLoop()
+const { $anime } = useNuxtApp()
+const itemRefs = ref([])
+const boxGroup = ref()
+const boxes = [
+  { id: 1, args: [1, 1, 1], pos: [-2, -2, 2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [-0, -2, 2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [2, -2, 2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [-2, 0, 2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [-2, 2, 2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [0, 2, 2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [2, 2, 2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [2, 0, 2], color: '#dee2e6' },
+  { id: 2, args: [1, 1, 1], pos: [1, 1, 1], color: '#dee2e6' },
+  { id: 3, args: [1, 1, 1], pos: [-1, 1, 1], color: '#dee2e6' },
+  { id: 4, args: [1, 1, 1], pos: [-1, -1, 1], color: '#dee2e6' },
+  { id: 5, args: [1, 1, 1], pos: [1, -1, 1], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [0, 0, 0], color: '#dee2e6' },
+  { id: 2, args: [1, 1, 1], pos: [1, 1, -1], color: '#dee2e6' },
+  { id: 3, args: [1, 1, 1], pos: [-1, 1, -1], color: '#dee2e6' },
+  { id: 4, args: [1, 1, 1], pos: [-1, -1, -1], color: '#dee2e6' },
+  { id: 5, args: [1, 1, 1], pos: [1, -1, -1], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [-2, -2, -2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [-0, -2, -2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [2, -2, -2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [-2, 0, -2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [-2, 2, -2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [0, 2, -2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [2, 2, -2], color: '#dee2e6' },
+  { id: 1, args: [1, 1, 1], pos: [2, 0, -2], color: '#dee2e6' },
+]
+onLoop(({ delta }) => {
+  if (boxGroup) {
+    boxGroup.value.rotation.y -= delta
+  }
+})
+function boxEnter(index) {
+  const actualY = itemRefs.value[index].value.position.y
   $anime({
-    targets: boxRef.value.value.position,
-    z: +2,
-    duration: 1000,
-    easing: "linear",
-  });
-}
-function boxEnter() {
-  $anime({
-    targets: boxRef.value.value.position,
-    z: 0.5,
+    targets: itemRefs.value[index].value.position,
+    y: actualY - 1,
     duration: 500,
-    easing: "linear",
-  });
-}
-function boxLeave() {
-  $anime({
-    targets: boxRef.value.value.position,
-    z: 0,
-    duration: 500,
-    easing: "linear",
-  });
-}
-const boxRef = ref();
-const lineRef = ref();
-/*
-onMounted(() => {
-  $anime({
-    targets: boxRef.value.value.position,
-    y: 1,
-    x: 2,
-    z: 3,
-    easing: 'easeInOutSine',
-    duration: 5000,
-    direction: 'alternate',
-    loop: true,
+    easing: 'linear',
   })
-}) */
+}
+function boxLeave(index) {
+  setTimeout(() => {
+    const actuallY = itemRefs.value[index].value.position.y
+    $anime({
+      targets: itemRefs.value[index].value.position,
+      y: actuallY + 1,
+      duration: 500,
+      easing: 'linear',
+    })
+  }, 500)
+}
+function boxClick(index) {
+  $anime({
+    targets: itemRefs.value[index].value.material.color,
+    r: 173,
+    g: 181,
+    b: 189,
+    duration: 500,
+    easing: 'linear',
+  })
+}
 </script>
 <template>
-  <TresGroup>
+  <TresGroup ref="boxGroup" :position="[0, -15, 0]">
     <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 0, 0]"
-      color="#FBFBFB"
-      @click="boxClick"
-      @pointer-enter="boxEnter"
-      @pointer-leave="boxLeave"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 0.5, 0]"
-      color="#FBFBFB"
-      @pointer-enter="boxEnter"
-      @pointer-leave="boxLeave"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 1, 0]"
-      color="#FBFBFB"
-      @pointer-enter="boxEnter"
-      @pointer-leave="boxLeave"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 1.5, 0]"
-      color="#FBFBFB"
-      @pointer-enter="boxEnter"
-      @pointer-leave="boxLeave"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 2, 0]"
-      color="#FBFBFB"
-      @pointer-enter="boxEnter"
-      @pointer-leave="boxLeave"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 2.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 3, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 3.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 4, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 4.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 5.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0, 6, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[0.5, 6, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[1, 5.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[1.5, 5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[1, 5.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[1.5, 5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[2, 4.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[2.5, 4, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[3, 4.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[3.5, 5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4, 5.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 6, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 5.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 4.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 4, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 3.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 3, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 2.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 2, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 1.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 1, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 0.5, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
-    <Box
-      ref="boxRef"
-      :args="[0.5, 0.5, 0.5]"
-      :position="[4.5, 0, 0]"
-      color="#FBFBFB"
-    >
-    </Box>
+      v-for="(box, index) in boxes"
+      @pointer-enter="boxEnter(index)"
+      @pointer-leave="boxLeave(index)"
+      @click="boxClick(index)"
+      :key="index"
+      :args="box.args"
+      :position="box.pos"
+      :color="box.color"
+      :ref="(el) => itemRefs.push(el)"
+    ></Box>
   </TresGroup>
 </template>
 

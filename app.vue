@@ -35,11 +35,8 @@
       <Levioso :speed="3" :floatFactor="5" :rotationFactor="0.1">
         <MouseParallax :factor="2" :ease="3" />
       </Levioso>
-      <boxrand :position="[-5, 1, 0]" :rotation="[0, 0.5, 0]" />
-      <boxrand :position="[5, 5, 0]" :rotation="[0, 0.3, 0]" />
-      <boxrand :position="[-15, -1, -10]" :rotation="[0, 0.5, 0]" />
-      <boxrand :position="[15, -5, -8]" :rotation="[0, 0.3, 0]" ref="boxRef" />
-      <boxrand :position="[10, 12, -15]" :rotation="[0, 0.1, 0]" ref="boxRef" />
+      <mazzar />
+      <boxrand />
       <Levioso>
         <TresGroup ref="groupRef">
           <Suspense>
@@ -67,192 +64,191 @@
   </div>
 </template>
 <script setup>
-const { onLoop } = useRenderLoop();
-const { $anime } = useNuxtApp();
-const boxRef = ref();
-const camRef = ref();
-const groupRef = ref();
-const oneStep = ref(true);
-const twoStep = ref(false);
-const threeStep = ref(false);
-const fourStep = ref(false);
-const fiveStep = ref(false);
-import { FBXModel } from "@tresjs/cientos";
+const { onLoop } = useRenderLoop()
+const { $anime } = useNuxtApp()
+const camRef = ref()
+const groupRef = ref()
+const oneStep = ref(true)
+const twoStep = ref(false)
+const threeStep = ref(false)
+const fourStep = ref(false)
+const fiveStep = ref(false)
+import { FBXModel } from '@tresjs/cientos'
 const steps = [
-  { id: 0, name: "one", value: { ycam: 2, snap: [10, -10], func: stepOne } },
+  { id: 0, name: 'one', value: { ycam: 2, snap: [10, -10], func: stepOne } },
   {
     id: 1,
-    name: "two",
+    name: 'two',
     value: { ycam: -18, snap: [-10, -30], func: stepTwo, active: true },
   },
   {
     id: 2,
-    name: "three",
+    name: 'three',
     value: { ycam: -38, snap: [-30, -50], func: stepThree, active: false },
   },
   {
     id: 3,
-    name: "four",
+    name: 'four',
     value: { ycam: -58, snap: [-50, -70], func: stepFour, active: false },
   },
   {
     id: 4,
-    name: "five",
+    name: 'five',
     value: { ycam: -78, snap: [-70, -90], func: stepFive, active: false },
   },
-];
-let currentIndex = 0;
-let isFunctionExecuted = false; // Variable pour suivre si une fonction a été utilisée
-let timer; // Variable pour stocker le temporisateur
-let startY; // Variable pour stocker la position Y de départ du toucher
-let rotatePlanet;
+]
+let currentIndex = 0
+let isFunctionExecuted = false // Variable pour suivre si une fonction a été utilisée
+let timer // Variable pour stocker le temporisateur
+let startY // Variable pour stocker la position Y de départ du toucher
+let rotatePlanet
+onLoop(({ delta }) => {
+  if (camRef.value.position.z > 10) {
+    camRef.value.position.z -= delta * 100
+  }
+
+  if (groupRef.value) {
+    groupRef.value.rotation.y += 0.005
+  }
+})
 const handleScroll = (event) => {
   if (isFunctionExecuted) {
     // Si une fonction a été utilisée récemment, ignore le scroll
-    return;
+    return
   }
 
   // Détermine la variation du défilement de la molette de la souris sur l'axe Y
-  let deltaY;
+  let deltaY
   if (event.deltaY !== undefined) {
-    deltaY = event.deltaY;
+    deltaY = event.deltaY
   } else if (event.touches !== undefined && event.touches[0] !== undefined) {
     if (startY === undefined) {
-      startY = event.touches[0].clientY; // Définir la position Y de départ du toucher
-      return; // Sortir de la fonction car nous avons seulement besoin de startY pour le premier toucher
+      startY = event.touches[0].clientY // Définir la position Y de départ du toucher
+      return // Sortir de la fonction car nous avons seulement besoin de startY pour le premier toucher
     } else {
-      deltaY = event.touches[0].clientY - startY; // Calculer la variation de défilement Y
-      startY = event.touches[0].clientY; // Mettre à jour la position Y de départ du toucher
+      deltaY = event.touches[0].clientY - startY // Calculer la variation de défilement Y
+      startY = event.touches[0].clientY // Mettre à jour la position Y de départ du toucher
     }
   }
 
   // Détermine le sens du défilement en fonction de la variation
-  let scrollDirection;
+  let scrollDirection
   if (deltaY > 0) {
-    scrollDirection = "down";
+    scrollDirection = 'down'
   } else if (deltaY < 0) {
-    scrollDirection = "up";
+    scrollDirection = 'up'
   } else {
-    return; // Si deltaY est égal à zéro, il n'y a pas de défilement à traiter
+    return // Si deltaY est égal à zéro, il n'y a pas de défilement à traiter
   }
 
   // Met à jour l'index en fonction du sens du défilement
-  if (scrollDirection === "down") {
+  if (scrollDirection === 'down') {
     if (currentIndex < steps.length - 1) {
-      currentIndex++; // Incrémente l'index si ce n'est pas la limite supérieure
+      currentIndex++ // Incrémente l'index si ce n'est pas la limite supérieure
     }
-  } else if (scrollDirection === "up") {
+  } else if (scrollDirection === 'up') {
     if (currentIndex > 0) {
-      currentIndex--; // Décrémente l'index si ce n'est pas la limite inférieure
+      currentIndex-- // Décrémente l'index si ce n'est pas la limite inférieure
     }
   }
 
   // Applique la valeur ycam correspondante
-  const newYcam = steps[currentIndex].value.ycam;
+  const newYcam = steps[currentIndex].value.ycam
 
   // Exécute la fonction func correspondante
-  const funcToExecute = steps[currentIndex].value.func;
-  funcToExecute();
+  const funcToExecute = steps[currentIndex].value.func
+  funcToExecute()
 
   // Empêche l'utilisation du scroll pendant 1 seconde
-  isFunctionExecuted = true;
+  isFunctionExecuted = true
   timer = setTimeout(() => {
-    isFunctionExecuted = false;
-  }, 1500);
-};
+    isFunctionExecuted = false
+  }, 1500)
+}
 
 onMounted(() => {
   // Ajoute un écouteur d'événements pour détecter le défilement
-  window.addEventListener("wheel", handleScroll);
+  window.addEventListener('wheel', handleScroll)
   // Ajoute un écouteur d'événements pour détecter le début du toucher
-  window.addEventListener("touchstart", (event) => {
-    startY = event.touches[0].clientY;
-  });
-});
+  window.addEventListener('touchstart', (event) => {
+    startY = event.touches[0].clientY
+  })
+})
 
 onUnmounted(() => {
   // Retire l'écouteur d'événements lors de la destruction du composant
-  window.removeEventListener("wheel", handleScroll);
-  window.removeEventListener("touchstart", handleScroll);
-});
+  window.removeEventListener('wheel', handleScroll)
+  window.removeEventListener('touchstart', handleScroll)
+})
 
-onLoop(({ delta }) => {
-  if (camRef.value.position.z > 10) {
-    camRef.value.position.z -= delta * 100;
-  }
-
-  if (groupRef.value) {
-    groupRef.value.rotation.y += 0.005;
-  }
-});
 function stepOne() {
-  oneStep.value = true;
-  twoStep.value = false;
-  threeStep.value = false;
-  fourStep.value = false;
-  fiveStep.value = false;
+  oneStep.value = true
+  twoStep.value = false
+  threeStep.value = false
+  fourStep.value = false
+  fiveStep.value = false
 
   $anime({
     targets: camRef.value.position,
     y: 2,
     duration: 1000,
-    easing: "linear",
-  });
+    easing: 'linear',
+  })
 }
 function stepTwo() {
-  oneStep.value = false;
-  twoStep.value = true;
-  threeStep.value = false;
-  fourStep.value = false;
-  fiveStep.value = false;
+  oneStep.value = false
+  twoStep.value = true
+  threeStep.value = false
+  fourStep.value = false
+  fiveStep.value = false
   $anime({
     targets: camRef.value.position,
     y: -18,
     duration: 1000,
-    easing: "linear",
-  });
+    easing: 'linear',
+  })
 }
 function stepThree() {
-  oneStep.value = false;
-  twoStep.value = false;
-  threeStep.value = true;
-  fourStep.value = false;
-  fiveStep.value = false;
+  oneStep.value = false
+  twoStep.value = false
+  threeStep.value = true
+  fourStep.value = false
+  fiveStep.value = false
 
   $anime({
     targets: camRef.value.position,
     y: -38,
     duration: 1000,
-    easing: "linear",
-  });
+    easing: 'linear',
+  })
 }
 function stepFour() {
-  oneStep.value = false;
-  twoStep.value = false;
-  threeStep.value = false;
-  fourStep.value = true;
-  fiveStep.value = false;
+  oneStep.value = false
+  twoStep.value = false
+  threeStep.value = false
+  fourStep.value = true
+  fiveStep.value = false
 
   $anime({
     targets: camRef.value.position,
     y: -58,
     duration: 1000,
-    easing: "linear",
-  });
+    easing: 'linear',
+  })
 }
 function stepFive() {
-  oneStep.value = false;
-  twoStep.value = false;
-  threeStep.value = false;
-  fourStep.value = false;
-  fiveStep.value = true;
+  oneStep.value = false
+  twoStep.value = false
+  threeStep.value = false
+  fourStep.value = false
+  fiveStep.value = true
 
   $anime({
     targets: camRef.value.position,
     y: -78,
     duration: 1000,
-    easing: "linear",
-  });
+    easing: 'linear',
+  })
 }
 </script>
 
