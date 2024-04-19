@@ -9,7 +9,7 @@
       <Suspense>
         <Text3D
           text="M"
-          font="/public/assets/poppins.json"
+          font="./assets/poppins.json"
           center
           need-updates
           :position="[-3.5, 3, 0]"
@@ -28,7 +28,7 @@
       <Suspense>
         <Text3D
           text="A"
-          font="/public/assets/poppins.json"
+          font="./assets/poppins.json"
           center
           need-updates
           :position="[-2, 3, 0]"
@@ -46,7 +46,7 @@
       <Suspense>
         <Text3D
           text="Z"
-          font="/public/assets/poppins.json"
+          font="./assets/poppins.json"
           center
           need-updates
           :position="[-0.5, 3, 0]"
@@ -64,7 +64,7 @@
       <Suspense>
         <Text3D
           text="Z"
-          font="/public/assets/poppins.json"
+          font="./assets/poppins.json"
           center
           need-updates
           :position="[1, 3, 0]"
@@ -82,7 +82,7 @@
       <Suspense>
         <Text3D
           text="A"
-          font="/public/assets/poppins.json"
+          font="./assets/poppins.json"
           center
           need-updates
           :position="[2.5, 3, 0]"
@@ -100,7 +100,7 @@
       <Suspense>
         <Text3D
           text="R"
-          font="/public/assets/poppins.json"
+          font="./assets/poppins.json"
           center
           need-updates
           :position="[4, 3, 0]"
